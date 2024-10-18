@@ -4,6 +4,8 @@
 #include "CLI/CLI.hpp"
 #include "config.h"
 
+#include <random>
+
 auto main(int argc, char **argv) -> int
 {
     /**
@@ -34,7 +36,25 @@ auto main(int argc, char **argv) -> int
      * More info at https://fmt.dev/latest/api.html
      */
     fmt::print("Hello, {}!\n", app.get_name());
+    
     fmt::print("Counter: {}\n", count);
+
+    std::vector<unsigned int> values;
+
+    std::random_device r;
+
+    std::default_random_engine e1(r());
+    std::uniform_int_distribution<int> uniform_dist(1, 100);
+
+    // filling the vector with random numbers
+    for(auto i{0}; i < count; i++) {
+        values.push_back(uniform_dist(e1));
+    }
+
+    // output the vector
+    for(auto i{0}; i < values.size(); i++) {
+        fmt::print("Value of element {}: {}\n", i, values.at(i));
+    }
 
     return 0; /* exit gracefully*/
 }
