@@ -60,7 +60,7 @@ include(cmake/StaticAnalyzers.cmake)
 include(cmake/Doxygen.cmake)
 
 # Exercises & solutions
-add_subdirectory(exercise-001)
+add_subdirectory(exercise-003)
 
 # templates
 add_subdirectory(templates)
