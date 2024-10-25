@@ -6,6 +6,8 @@
 
 #include <random>
 
+auto print_vector(std::vector<unsigned int> values) -> void;
+
 auto main(int argc, char **argv) -> int
 {
     /**
@@ -36,25 +38,44 @@ auto main(int argc, char **argv) -> int
      * More info at https://fmt.dev/latest/api.html
      */
     fmt::print("Hello, {}!\n", app.get_name());
-    
     fmt::print("Counter: {}\n", count);
 
+    // fill the vector with random numbers and measure the time
     std::vector<unsigned int> values;
 
     std::random_device r;
-
     std::default_random_engine e1(r());
     std::uniform_int_distribution<int> uniform_dist(1, 100);
-
+    const auto start_inserting{std::chrono::steady_clock::now()};
     // filling the vector with random numbers
     for(auto i{0}; i < count; i++) {
         values.push_back(uniform_dist(e1));
     }
+    const auto end_inserting{std::chrono::steady_clock::now()};
+    auto elapsed_inserting =std::chrono::duration_cast<std::chrono::nanoseconds>(end_inserting - start_inserting);
 
-    // output the vector
+    // print the results
+    fmt::print("\nUnsorted List with random values (0 to {}):\n", count);
+    print_vector(values);
+    fmt::print("time for inserting the values: {}\n", elapsed_inserting);
+
+    // sort the vector and measure the needed tim 
+    const auto start_sorting{std::chrono::steady_clock::now()};
+    std::sort(values.begin(), values.end());
+    const auto end_sorting{std::chrono::steady_clock::now()};
+    auto elapsed_sorting = std::chrono::duration_cast<std::chrono::nanoseconds>(end_sorting - start_sorting);
+
+    // print the result (the sorted vector and the required time)
+    fmt::print("\nSorted List with random values (0 to {}):\n", count);
+    print_vector(values);
+    fmt::print("time for sorting the list: {}\n", elapsed_sorting);
+
+    return 0; /* exit gracefully*/
+}
+
+auto print_vector(std::vector<unsigned int> values) -> void
+{ // output the vector
     for(auto i{0}; i < values.size(); i++) {
         fmt::print("Value of element {}: {}\n", i, values.at(i));
     }
-
-    return 0; /* exit gracefully*/
 }
