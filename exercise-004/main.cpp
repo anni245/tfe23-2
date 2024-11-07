@@ -46,22 +46,20 @@ auto main(int argc, char** argv) -> int
 
     int size = 10;
 
-    MyVector * my_vec = new MyVector();
-
+    MyVector * my_vec = new MyVector(size);
+    
     const auto start{std::chrono::steady_clock::now()};
     
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < size*3; i++)
     {
         my_vec->push_back(uniform_dist(e1));
-    
     }
 
     const auto end{std::chrono::steady_clock::now()};
     const std::chrono::duration<double> elapsed_seconds{end - start};
-
     fmt::print("{}\n", elapsed_seconds);
-
-    //my_vec->print_vector();
+    
+    my_vec->print_vector();
 
     delete my_vec;
 
